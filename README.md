@@ -1,7 +1,5 @@
 # GoPokemon
 In this game you are a pokemon and have to avoid pokeballs
-
-
 ##Credits
 Created by Jesús Alberto Martínez Mendoza
 
