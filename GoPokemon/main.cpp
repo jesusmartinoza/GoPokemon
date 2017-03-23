@@ -31,7 +31,7 @@ void reshape(int w, int h)
 
 void display(void)
 {
-    // clear all pixels
+    glClearColor(0.13, 0.22, 0.29, 1.00);
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     
@@ -39,8 +39,8 @@ void display(void)
     {
         for(auto &faceVector : object.getFaces())
         {
-            glColor3ub(rand()%255, rand()%155, rand()%255 );
-            glBegin(GL_LINE_STRIP);
+            glColor3ub(rand()%180, rand()%220, rand()%100 );
+            glBegin(GL_POLYGON);
             for(auto vectorIndex : faceVector)
             {
                 ObjVertex vertex = model.getVertices().at(vectorIndex);
