@@ -24,9 +24,9 @@ public:
     float getX();
     float getY();
     float getZ();
-    void setX();
-    void setY();
-    void setZ();
+    void setX(float x);
+    void setY(float y);
+    void setZ(float z);
 };
 
 #endif /* ObjVertex_hpp */

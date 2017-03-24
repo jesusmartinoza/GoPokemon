@@ -29,6 +29,21 @@ float ObjVertex::getZ()
     return z;
 }
 
+void ObjVertex::setX(float x)
+{
+    this->x = x;
+}
+
+void ObjVertex::setY(float y)
+{
+    this->y = y;
+}
+
+void ObjVertex::setZ(float z)
+{
+    this->z = z;
+}
+
 void ObjVertex::print()
 {
     std::cout << x << " " << y << " " << z << std::endl;

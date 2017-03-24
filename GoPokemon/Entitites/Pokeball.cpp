@@ -23,10 +23,10 @@ Pokeball::Pokeball()
  **/
 Pokeball::Pokeball(string fileName):ObjModel(fileName)
 {
-    ObjVertex p1 = ObjVertex(0, 0, 0);
-    ObjVertex r1 = ObjVertex(0, -2, 0);
-    ObjVertex r4 = ObjVertex(2, 2, 0);
-    ObjVertex p4 = ObjVertex(2, 0, 0);
+    ObjVertex p1 = ObjVertex(-4, 0, 0);
+    ObjVertex r1 = ObjVertex(-4, -2, 0);
+    ObjVertex r4 = ObjVertex(4, 2, 0);
+    ObjVertex p4 = ObjVertex(4, 0, 0);
     
     calculatePath(p1, p4, r1, r4, 40);
 }
@@ -40,7 +40,7 @@ Pokeball::Pokeball(string fileName):ObjModel(fileName)
  **/
 void Pokeball::calculatePath(ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex r4, int n)
 {
-    float d = 1/n;
+    float d = 1.0f/n;
     
     for(float t = 0; t <= 1; t+=d)
     {
@@ -56,17 +56,6 @@ void Pokeball::calculatePath(ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex
         float x = ct3*p1.getX() + c2*r1.getX() + c3*r4.getX() + t3*p4.getX();
         float y = ct3*p1.getY() + c2*r1.getY() + c3*r4.getY() + t3*p4.getY();
         float z = ct3*p1.getZ() + c2*r1.getZ() + c3*r4.getZ() + t3*p4.getZ();
-        
-        /*float t2 = t*t;
-        float t3 = t2*t;
-        float c1 = 2*t3 - 3*t2 + 1;
-        float c2 = -2*t3 + 3*t2;
-        float c3 = t3 - 2*t2 + t;
-        float c4 = t3 - t2;
-        
-        float x = c1*p1.getX() + c2*p4.getX() + c3*r1.getX() + c4*r4.getX();
-        float y = c1*p1.getY() + c2*p4.getY() + c3*r1.getY() + c4*r4.getY();
-        float z = c1*p1.getZ() + c2*p4.getZ() + c3*r1.getZ() + c4*r4.getZ();*/
         
         pathPoints.push_back(ObjVertex(x, y, z));
     }

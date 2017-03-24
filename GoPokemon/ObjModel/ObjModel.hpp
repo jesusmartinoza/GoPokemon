@@ -27,6 +27,7 @@ public:
     vector<ObjVertex> getVertices();
     vector<ObjObject> getObjects();
     void print();
+    void translate(ObjVertex destination);
 };
 
 #endif /* ObjModel_hpp */

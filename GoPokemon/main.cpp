@@ -23,6 +23,11 @@ void init (void)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glShadeModel(GL_FLAT);
+    
+    pokemon = ObjModel("Models/Magnemite.obj");
+    pokeball = Pokeball("Models/Pokeball.obj");
+    
+    pokemon.translate(ObjVertex(0.3, 0, 2));
 }
 
 void reshape(int w, int h)
@@ -41,7 +46,7 @@ void drawModel(ObjModel *model)
     {
         for(auto &faceVector : object.getFaces())
         {
-            glColor3ub(rand()%180, rand()%220, rand()%100 );
+            //glColor3ub(rand()%180, rand()%220, rand()%100 );
             glBegin(GL_LINE_STRIP);
             for(auto vectorIndex : faceVector)
             {
@@ -53,45 +58,37 @@ void drawModel(ObjModel *model)
     }
 }
 
+int i = 0;
 void display(void)
 {
     glClearColor(0.13, 0.22, 0.29, 1.00);
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     
-    //drawModel(&pokeball);
-    //drawModel(&pokemon);
-    ObjVertex p1 = ObjVertex(0, 0, 0);
-    ObjVertex r1 = ObjVertex(0, -2, 0);
-    ObjVertex r4 = ObjVertex(2, 2, 0);
-    ObjVertex p4 = ObjVertex(2, 0, 0);
+    drawModel(&pokeball);
+    drawModel(&pokemon);
     
     glBegin(GL_LINE_STRIP);
-    glPointSize(10);
     glColor3f(1, 0, 0.5);
-    glVertex3f(p1.getX(), p1.getY(), p1.getZ());
-    glVertex3f(r1.getX(), r1.getY(), r1.getZ());
-    glVertex3f(r4.getX(), r4.getY(), r4.getZ());
-    glVertex3f(p4.getX(), p4.getY(), p4.getZ());
-    glEnd();
-    
-    
-    glBegin(GL_LINE_STRIP);
     for(auto point : pokeball.getPathPoints())
     {
         glVertex3f(point.getX(), point.getY(), point.getZ());
-        //glRecti(point.getX(), point.getY(), point.getX() + 1, point.getY() + 1);
+        //pokeball.translate(point);
     }
     glEnd();
     
+    if(++i >= pokeball.getPathPoints().size())
+        i =  0;
+    
+    ObjVertex dest = pokeball.getPathPoints().at(i);
+    pokeball.translate(dest);
+    
     glFlush();
+    glutPostRedisplay();
 }
 
 int main(int argc, char * argv[])
 {
-    pokemon = ObjModel("Models/Magnemite.obj");
-    pokeball = Pokeball("Models/Pokeball.obj");
-    
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize (800, 640);

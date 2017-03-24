@@ -16,7 +16,7 @@
 using namespace std;
 
 /**
- Default constructor
+ * Default constructor
  **/
 ObjModel::ObjModel()
 {
@@ -24,8 +24,8 @@ ObjModel::ObjModel()
 }
 
 /**
- Constructor. Read obj file as text file and create OBJModel.
- @param fileName Name of the obj file with extension.
+ * Constructor. Read obj file as text file and create OBJModel.
+ * @param fileName Name of the obj file with extension.
  **/
 ObjModel::ObjModel(string fileName)
 {
@@ -77,9 +77,9 @@ ObjModel::ObjModel(string fileName)
 }
 
 /**
- Receive a string and split it in words separated by space.
- @param line Line to be splitted.
- @return vector with words.
+ * Receive a string and split it in words separated by space.
+ * @param line Line to be splitted.
+ * @return vector with words.
  **/
 vector<const char*> ObjModel::getSplittedLine(const string &line)
 {
@@ -97,7 +97,7 @@ vector<const char*> ObjModel::getSplittedLine(const string &line)
 }
 
 /**
- return vertices vector
+ * @return vertices vector
  **/
 vector<ObjVertex> ObjModel::getVertices()
 {
@@ -105,7 +105,7 @@ vector<ObjVertex> ObjModel::getVertices()
 }
 
 /**
- return objects vector
+ * @return objects vector
  **/
 vector<ObjObject> ObjModel::getObjects()
 {
@@ -113,7 +113,7 @@ vector<ObjObject> ObjModel::getObjects()
 }
 
 /**
- Read all OBJ Model info and print.
+ * Read all OBJ Model info and print.
  **/
 void ObjModel::print()
 {
@@ -139,5 +139,45 @@ void ObjModel::print()
             }
             cout << endl;
         }
+    }
+}
+
+/**
+ * Translate vectors to the given vertex.
+ * @param destination Final point
+ */
+void ObjModel::translate(ObjVertex destination)
+{
+    // Calculate dx, dy, dz using the first point as anchor.
+    float dx = destination.getX() - vertices.at(0).getX();
+    float dy = destination.getY() - vertices.at(0).getY();
+    float dz = destination.getZ() - vertices.at(0).getZ();
+    
+    vector<ObjVertex>::iterator it;
+    float matrix[4][4] = {
+        {1, 0, 0, dx},
+        {0, 1, 0, dy},
+        {0, 0, 1, dz},
+        {0, 0, 0, 1},
+    };
+    
+    // Iterate over all points
+    for(it = vertices.begin(); it < vertices.end(); it++)
+    {
+        float origin[] = {
+            it->getX(),
+            it->getY(),
+            it->getZ()
+        };
+        float dest[] = {0, 0, 0, 0};
+        
+        // Multiply translate matrix by origin vector.
+        for(int i = 0; i < 4; i++)
+            for(int j = 0; j < 4; j++)
+                dest[i] += matrix[i][j] * origin[j];
+        
+        it->setX(dest[0]);
+        it->setY(dest[1]);
+        it->setZ(dest[2]);
     }
 }
