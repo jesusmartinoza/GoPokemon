@@ -10,13 +10,14 @@
 #include <GL/glut.h>
 #endif
 #include "ObjModel.hpp"
+#include "Pokeball.hpp"
 
 void drawModel(ObjModel *model);
 void init (void);
 void reshape(int w, int h);
 
 ObjModel pokemon;
-ObjModel pokeball;
+Pokeball pokeball;
 
 void init (void)
 {
@@ -58,8 +59,30 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     
-    drawModel(&pokeball);
-    drawModel(&pokemon);
+    //drawModel(&pokeball);
+    //drawModel(&pokemon);
+    ObjVertex p1 = ObjVertex(0, 0, 0);
+    ObjVertex r1 = ObjVertex(0, -2, 0);
+    ObjVertex r4 = ObjVertex(2, 2, 0);
+    ObjVertex p4 = ObjVertex(2, 0, 0);
+    
+    glBegin(GL_LINE_STRIP);
+    glPointSize(10);
+    glColor3f(1, 0, 0.5);
+    glVertex3f(p1.getX(), p1.getY(), p1.getZ());
+    glVertex3f(r1.getX(), r1.getY(), r1.getZ());
+    glVertex3f(r4.getX(), r4.getY(), r4.getZ());
+    glVertex3f(p4.getX(), p4.getY(), p4.getZ());
+    glEnd();
+    
+    
+    glBegin(GL_LINE_STRIP);
+    for(auto point : pokeball.getPathPoints())
+    {
+        glVertex3f(point.getX(), point.getY(), point.getZ());
+        //glRecti(point.getX(), point.getY(), point.getX() + 1, point.getY() + 1);
+    }
+    glEnd();
     
     glFlush();
 }
@@ -67,7 +90,7 @@ void display(void)
 int main(int argc, char * argv[])
 {
     pokemon = ObjModel("Models/Magnemite.obj");
-    pokeball = ObjModel("Models/Pokeball.obj");
+    pokeball = Pokeball("Models/Pokeball.obj");
     
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);

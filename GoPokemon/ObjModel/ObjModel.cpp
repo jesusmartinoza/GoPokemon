@@ -18,7 +18,8 @@ using namespace std;
 /**
  Default constructor
  **/
-ObjModel::ObjModel() {
+ObjModel::ObjModel()
+{
     
 }
 
@@ -98,14 +99,16 @@ vector<const char*> ObjModel::getSplittedLine(const string &line)
 /**
  return vertices vector
  **/
-vector<ObjVertex> ObjModel::getVertices() {
+vector<ObjVertex> ObjModel::getVertices()
+{
     return vertices;
 }
 
 /**
  return objects vector
  **/
-vector<ObjObject> ObjModel::getObjects() {
+vector<ObjObject> ObjModel::getObjects()
+{
     return objects;
 }
 
@@ -120,7 +123,8 @@ void ObjModel::print()
     {
         // Print vertices
         cout << "o " << object.getName() << endl;
-        for(auto &vertex : vertices) {
+        for(auto &vertex : vertices)
+        {
             cout << "v ";
             vertex.print();
         }
