@@ -158,7 +158,44 @@ void ObjModel::translate(ObjVertex destination)
         {1, 0, 0, dx},
         {0, 1, 0, dy},
         {0, 0, 1, dz},
-        {0, 0, 0, 1},
+        {0, 0, 0, 1}
+    };
+    
+    // Iterate over all points
+    for(it = vertices.begin(); it < vertices.end(); it++)
+    {
+        float origin[] = {
+            it->getX(),
+            it->getY(),
+            it->getZ()
+        };
+        float dest[] = {0, 0, 0, 0};
+        
+        // Multiply translate matrix by origin vector.
+        for(int i = 0; i < 4; i++)
+            for(int j = 0; j < 4; j++)
+                dest[i] += matrix[i][j] * origin[j];
+        
+        it->setX(dest[0]);
+        it->setY(dest[1]);
+        it->setZ(dest[2]);
+    }
+}
+
+/**
+* Scale model.
+* @param sx Scale in x
+* @param sy Scale in y
+* @param sz Scale in z
+**/
+void ObjModel::scale(float sx, float sy, float sz)
+{
+    vector<ObjVertex>::iterator it;
+    float matrix[4][4] = {
+        {sx, 0, 0, 0},
+        {0, sy, 0, 0},
+        {0, 0, sz, 0},
+        {0, 0, 0, 1}
     };
     
     // Iterate over all points

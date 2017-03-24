@@ -28,6 +28,7 @@ public:
     vector<ObjObject> getObjects();
     void print();
     void translate(ObjVertex destination);
+    void scale(float sx, float sy, float sz);
 };
 
 #endif /* ObjModel_hpp */

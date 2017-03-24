@@ -23,12 +23,12 @@ Pokeball::Pokeball()
  **/
 Pokeball::Pokeball(string fileName):ObjModel(fileName)
 {
-    ObjVertex p1 = ObjVertex(-4, 0, 0);
-    ObjVertex r1 = ObjVertex(-4, -2, 0);
-    ObjVertex r4 = ObjVertex(4, 2, 0);
-    ObjVertex p4 = ObjVertex(4, 0, 0);
+    ObjVertex p1 = ObjVertex(-6, 8, -12);
+    ObjVertex r1 = ObjVertex(-11, 3, -4);
+    ObjVertex r4 = ObjVertex(-3, 2, 1);
+    ObjVertex p4 = ObjVertex(-2, -2, 1);
     
-    calculatePath(p1, p4, r1, r4, 40);
+    calculatePath(p1, p4, r1, r4, 20);
 }
 
 /**
