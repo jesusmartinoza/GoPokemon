@@ -15,30 +15,36 @@ using namespace std;
  **/
 Pokeball::Pokeball()
 {
-    
+    this->p1 = ObjVertex(-6, 8, -12);
+    this->r1 = ObjVertex(-11, 3, -4);
+    this->r4 = ObjVertex(-3, 2, 1);
+    this->p4 = ObjVertex(-2, -2, 1);
 }
 
 /**
  * Initialize obj model and create curve points.
- **/
-Pokeball::Pokeball(string fileName):ObjModel(fileName)
-{
-    ObjVertex p1 = ObjVertex(-6, 8, -12);
-    ObjVertex r1 = ObjVertex(-11, 3, -4);
-    ObjVertex r4 = ObjVertex(-3, 2, 1);
-    ObjVertex p4 = ObjVertex(-2, -2, 1);
-    
-    calculatePath(p1, p4, r1, r4, 20);
-}
-
-/**
- * Create points using Bezier curve.
+ * @param fileName Name of the obj file.
  * @param p1 Start point
  * @param p4 End point
  * @param r1 Control point attached to p1
  * @param r4 Contron point attached to p4
  **/
-void Pokeball::calculatePath(ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex r4, int n)
+Pokeball::Pokeball(string fileName, ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex r4)
+    :ObjModel(fileName)
+{
+    this->p1 = p1;
+    this->r1 = r1;
+    this->r4 = r4;
+    this->p4 = p4;
+    this->n = 30;
+    
+    calculatePath();
+}
+
+/**
+ * Create points using Bezier curve.
+ **/
+void Pokeball::calculatePath()
 {
     float d = 1.0f/n;
     
@@ -59,6 +65,23 @@ void Pokeball::calculatePath(ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex
         
         pathPoints.push_back(ObjVertex(x, y, z));
     }
+}
+
+
+void Pokeball::setR1(ObjVertex r1)
+{
+    this->r1 = r1;
+}
+
+
+void Pokeball::setR4(ObjVertex r4)
+{
+    this->r4 = r4;
+}
+
+void Pokeball::setP1(ObjVertex p1)
+{
+    this->p1 = p1;
 }
 
 /**

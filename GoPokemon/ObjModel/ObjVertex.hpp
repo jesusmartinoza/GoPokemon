@@ -19,6 +19,7 @@ private:
     float y;
     float z;
 public:
+    ObjVertex();
     ObjVertex(float x, float y, float z);
     void print();
     float getX();

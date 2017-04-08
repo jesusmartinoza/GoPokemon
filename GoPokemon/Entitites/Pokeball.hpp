@@ -15,11 +15,16 @@
 class Pokeball: public ObjModel {
 private:
     vector<ObjVertex> pathPoints;
-    void calculatePath(ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex r4, int n);
+    ObjVertex p1, p4, r1, r4;
+    int n;
 public:
     Pokeball();
-    Pokeball(std::string fileName);
+    Pokeball(std::string fileName, ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex r4);
     vector<ObjVertex> getPathPoints();
+    void setR1(ObjVertex r1);
+    void setR4(ObjVertex r4);
+    void setP1(ObjVertex p1);
+    void calculatePath();
 };
 
 

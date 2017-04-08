@@ -7,6 +7,11 @@
 
 #include "ObjVertex.hpp"
 
+ObjVertex::ObjVertex()
+{
+    
+}
+
 ObjVertex::ObjVertex(float x, float y, float z)
 {
     this->x = x;
