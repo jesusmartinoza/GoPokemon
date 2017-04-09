@@ -11,57 +11,42 @@
 #endif
 #include "ObjModel.hpp"
 #include "Pokeball.hpp"
+#include "Pokemon.hpp"
 
-void drawModel(ObjModel *model);
-void init (void);
-void reshape(int w, int h);
-
-ObjModel pokemon;
+/*==============================================================*
+                      V A R I A B L E S
+ *==============================================================*/
+Pokemon pokemon;
 Pokeball pokeball;
+static int redisplay_interval;
 
-int i = 0;
-void render() {
-    if(++i >= pokeball.getPathPoints().size()) {
-        i =  0;
-        pokeball.setR1(ObjVertex(rand()%10 - rand()%20, rand()%3 - rand()%6, rand()%4 - rand()%8));
-        pokeball.setR4(ObjVertex(rand()%4 - 8, rand()%3 - 4, rand()%2 - 4));
-        pokeball.calculatePath();
+/*==============================================================*
+                  G L U T    F U N C T I O N S
+ *==============================================================*/
+void display(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.13, 0.22, 0.29, 1.00);
+    glLoadIdentity();
+    
+    glPushMatrix();
+    pokemon.draw();
+    pokeball.draw();
+    glPopMatrix();
+    glutSwapBuffers();
+}
+
+void SpecialInput(int key, int x, int y)
+{
+    switch(key)
+    {
+        case GLUT_KEY_LEFT:
+            pokemon.moveLeft();
+            break;
+        case GLUT_KEY_RIGHT:
+            pokemon.moveRight();
+            break;
     }
-    
-    ObjVertex dest = pokeball.getPathPoints().at(i);
-    pokeball.translate(dest);
-    glutPostRedisplay();
-}
-/*
- static int redisplay_interval;
-void timer(int) {
-    render();
-    glutPostRedisplay();
-    glutTimerFunc(redisplay_interval, timer, 0);
-}
-
-void setFPS(int fps)
-{
-    redisplay_interval = 1000 / fps;
-    glutTimerFunc(redisplay_interval, timer, 0);
-}*/
-
-void init (void)
-{
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    glShadeModel(GL_FLAT);
-    
-    pokemon = ObjModel("Models/Magnemite.obj");
-    
-    ObjVertex p1 = ObjVertex(-6, 8, -12);
-    ObjVertex r1 = ObjVertex(-11, 3, -4);
-    ObjVertex r4 = ObjVertex(-3, 2, 1);
-    ObjVertex p4 = ObjVertex(-2, -2, 1);
-    pokeball = Pokeball("Models/Pokeball.obj", p1, p4, r1, r4);
-    
-    pokemon.translate(ObjVertex(0.3, 0, 2));
-    pokeball.scale(0.8, 0.8, 0.8);
-    //setFPS(15);
 }
 
 void reshape(int w, int h)
@@ -75,51 +60,39 @@ void reshape(int w, int h)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
-ObjVertex vertex;
-void drawModel(ObjModel *model)
+
+/*==============================================================*
+                        F U N C T I O N S
+ *==============================================================*/
+void timer(int)
 {
-    for (auto &object : model->getObjects())
-    {
-        for(auto &faceVector : object.getFaces())
-        {
-            glBegin(GL_LINE_STRIP);
-            //glColor3ub(rand()%r, rand()%g, rand()%b);
-            for(auto vectorIndex : faceVector)
-            {
-                vertex = model->getVertices().at(vectorIndex);
-                glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());
-            }
-            glEnd();
-        }
-    }
+    pokeball.update();
+    glutPostRedisplay();
+    glutTimerFunc(redisplay_interval, timer, 0);
 }
 
-void SpecialInput(int key, int x, int y)
+void setFPS(int fps)
 {
-    ObjVertex dest = pokemon.getVertices().at(0);
-    switch(key)
-    {
-        case GLUT_KEY_LEFT:
-            dest.setX(dest.getX()-0.5);
-            break;
-        case GLUT_KEY_RIGHT:
-            dest.setX(dest.getX()+0.5);
-            break;
-    }
-    pokemon.translate(dest);
+    redisplay_interval = 1000 / fps;
+    glutTimerFunc(redisplay_interval, timer, 0);
 }
 
-void display(void)
+void init (void)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0.13, 0.22, 0.29, 1.00);
-    //glLoadIdentity();
-    glPushMatrix();
-    drawModel(&pokemon);
-    drawModel(&pokeball);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glShadeModel(GL_FLAT);
     
-    glPopMatrix();
-    glutSwapBuffers();
+    pokemon = Pokemon("Models/Magnemite.obj");
+    
+    ObjVertex p1 = ObjVertex(-6, 8, -12);
+    ObjVertex r1 = ObjVertex(-11, 3, -4);
+    ObjVertex r4 = ObjVertex(-3, 2, 1);
+    ObjVertex p4 = ObjVertex(-2, -2, 1);
+    pokeball = Pokeball("Models/Pokeball.obj", p1, p4, r1, r4);
+    
+    pokemon.translate(ObjVertex(0.3, 0, 2));
+    pokeball.scale(0.8, 0.8, 0.8);
+    setFPS(50);
 }
 
 int main(int argc, char * argv[])
@@ -132,7 +105,6 @@ int main(int argc, char * argv[])
     init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
-    glutIdleFunc(render);
     glutSpecialFunc(SpecialInput);
     glutMainLoop();
     return 0;

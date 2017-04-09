@@ -7,7 +7,11 @@
 
 #ifndef ObjModel_hpp
 #define ObjModel_hpp
-
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 #include <stdio.h>
 #include <vector>
 #include <string>
@@ -18,17 +22,17 @@ using namespace std;
 
 class ObjModel {
 private:
-    vector<ObjVertex> vertices;
+    vector<ObjVertex> vertices; // Cleared at finished reading file.
     vector<ObjObject> objects;
 public:
     ObjModel();
     ObjModel(string fileName);
     vector<const char*> getSplittedLine(const string &line);
-    vector<ObjVertex> getVertices();
     vector<ObjObject> getObjects();
     void print();
     void translate(ObjVertex destination);
     void scale(float sx, float sy, float sz);
+    void draw();
 };
 
 #endif /* ObjModel_hpp */

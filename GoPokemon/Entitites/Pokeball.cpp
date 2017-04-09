@@ -19,6 +19,7 @@ Pokeball::Pokeball()
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
     this->p4 = ObjVertex(-2, -2, 1);
+    pathPointIndex = 0;
 }
 
 /**
@@ -36,7 +37,7 @@ Pokeball::Pokeball(string fileName, ObjVertex p1, ObjVertex p4, ObjVertex r1, Ob
     this->r1 = r1;
     this->r4 = r4;
     this->p4 = p4;
-    this->n = 30;
+    this->n = 50;
     
     calculatePath();
 }
@@ -67,18 +68,25 @@ void Pokeball::calculatePath()
     }
 }
 
-
+/**
+ * Set control point R1
+ */
 void Pokeball::setR1(ObjVertex r1)
 {
     this->r1 = r1;
 }
 
-
+/**
+ * Set control point R4
+ */
 void Pokeball::setR4(ObjVertex r4)
 {
     this->r4 = r4;
 }
 
+/**
+ * Set bezier curve point P1
+ */
 void Pokeball::setP1(ObjVertex p1)
 {
     this->p1 = p1;
@@ -90,4 +98,22 @@ void Pokeball::setP1(ObjVertex p1)
 vector<ObjVertex> Pokeball::getPathPoints()
 {
     return pathPoints;
+}
+
+/**
+ * Translate pokeball to next path point. Generate new random path when finish. 
+ **/
+void Pokeball::update()
+{
+    
+    if(++pathPointIndex >= pathPoints.size())
+    {
+        pathPointIndex =  0;
+        r1 = ObjVertex(rand()%10 - rand()%20, rand()%3 - rand()%6, rand()%4 - rand()%8);
+        r4 = ObjVertex(rand()%4 - 8, rand()%3 - 4, rand()%2 - 4);
+        calculatePath();
+    }
+    
+    ObjVertex dest = pathPoints.at(pathPointIndex);
+    translate(dest);
 }

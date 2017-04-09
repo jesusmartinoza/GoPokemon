@@ -17,6 +17,7 @@ private:
     vector<ObjVertex> pathPoints;
     ObjVertex p1, p4, r1, r4;
     int n;
+    int pathPointIndex;
 public:
     Pokeball();
     Pokeball(std::string fileName, ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex r4);
@@ -25,7 +26,7 @@ public:
     void setR4(ObjVertex r4);
     void setP1(ObjVertex p1);
     void calculatePath();
+    void update();
 };
-
 
 #endif /* Pokeball_hpp */

@@ -56,14 +56,16 @@ ObjModel::ObjModel(string fileName)
                 }
                 // Add vertices indexes to the last OBJ object created.
                 case 'f': {
-                    vector<int> faceVector;
+                    vector<ObjVertex> faceVector;
                     vector<const char*> facesIndexes = getSplittedLine(line);
                     
                     for(auto &faceIndex : facesIndexes)
                     {
-                        faceVector.push_back((atoi(faceIndex)) - 1);
+                        int i = (atoi(faceIndex)) - 1;
+                        ObjVertex vertex = ObjVertex(vertices.at(i));
+                        faceVector.push_back(vertex);
                     }
-                    objects.back().addFaceVector(faceVector);
+                    objects.back().getFaces().push_back(faceVector);
                     break;
                 }
 
@@ -71,6 +73,7 @@ ObjModel::ObjModel(string fileName)
             //cout << endl;
         }
         file.close();
+        vertices.clear();
     }
     
     else cout << "Unable to open file";
@@ -97,14 +100,6 @@ vector<const char*> ObjModel::getSplittedLine(const string &line)
 }
 
 /**
- * @return vertices vector
- **/
-vector<ObjVertex> ObjModel::getVertices()
-{
-    return vertices;
-}
-
-/**
  * @return objects vector
  **/
 vector<ObjObject> ObjModel::getObjects()
@@ -118,28 +113,9 @@ vector<ObjObject> ObjModel::getObjects()
 void ObjModel::print()
 {
     cout << "\n**** OBJ MODEL *******" << endl;
-    
-    for (auto &object : objects)
-    {
-        // Print vertices
-        cout << "o " << object.getName() << endl;
-        for(auto &vertex : vertices)
-        {
-            cout << "v ";
-            vertex.print();
-        }
-        
-        // Print faces
-        for(auto &faceVector : object.getFaces())
-        {
-            cout << "f ";
-            for(auto vectorIndex : faceVector)
-            {
-                cout << (vectorIndex + 1) << " ";
-            }
-            cout << endl;
-        }
-    }
+    /*
+        Lost in vertices refactor hehe
+     */
 }
 
 /**
@@ -149,9 +125,10 @@ void ObjModel::print()
 void ObjModel::translate(ObjVertex destination)
 {
     // Calculate dx, dy, dz using the first point as anchor.
-    float dx = destination.getX() - vertices.at(0).getX();
-    float dy = destination.getY() - vertices.at(0).getY();
-    float dz = destination.getZ() - vertices.at(0).getZ();
+    //                               1st object  .  1st face  .  1st vertex
+    float dx = destination.getX() - objects.at(0).getFaces().at(0).at(0).getX();
+    float dy = destination.getY() - objects.at(0).getFaces().at(0).at(0).getY();
+    float dz = destination.getZ() - objects.at(0).getFaces().at(0).at(0).getZ();
     
     vector<ObjVertex>::iterator it;
     float matrix[4][4] = {
@@ -161,24 +138,29 @@ void ObjModel::translate(ObjVertex destination)
         {0, 0, 0, 1}
     };
     
-    // Iterate over all points
-    for(it = vertices.begin(); it < vertices.end(); it++)
+    for (auto &object : objects)
     {
-        float origin[] = {
-            it->getX(),
-            it->getY(),
-            it->getZ()
-        };
-        float dest[] = {0, 0, 0, 0};
-        
-        // Multiply translate matrix by origin vector.
-        for(int i = 0; i < 4; i++)
-            for(int j = 0; j < 4; j++)
-                dest[i] += matrix[i][j] * origin[j];
-        
-        it->setX(dest[0]);
-        it->setY(dest[1]);
-        it->setZ(dest[2]);
+        for(auto &face : object.getFaces())
+        {
+            for(it = face.begin(); it < face.end(); it++)
+            {
+                float origin[] = {
+                    it->getX(),
+                    it->getY(),
+                    it->getZ()
+                };
+                float dest[] = {0, 0, 0, 0};
+                
+                // Multiply translate matrix by origin vector.
+                for(int i = 0; i < 4; i++)
+                    for(int j = 0; j < 4; j++)
+                        dest[i] += matrix[i][j] * origin[j];
+                
+                it->setX(dest[0]);
+                it->setY(dest[1]);
+                it->setZ(dest[2]);
+            }
+        }
     }
 }
 
@@ -198,23 +180,47 @@ void ObjModel::scale(float sx, float sy, float sz)
         {0, 0, 0, 1}
     };
     
-    // Iterate over all points
-    for(it = vertices.begin(); it < vertices.end(); it++)
+    for (auto &object : objects)
     {
-        float origin[] = {
-            it->getX(),
-            it->getY(),
-            it->getZ()
-        };
-        float dest[] = {0, 0, 0, 0};
-        
-        // Multiply translate matrix by origin vector.
-        for(int i = 0; i < 4; i++)
-            for(int j = 0; j < 4; j++)
-                dest[i] += matrix[i][j] * origin[j];
-        
-        it->setX(dest[0]);
-        it->setY(dest[1]);
-        it->setZ(dest[2]);
+        for(auto &face : object.getFaces())
+        {
+            for(it = face.begin(); it < face.end(); it++)
+            {
+                float origin[] = {
+                    it->getX(),
+                    it->getY(),
+                    it->getZ()
+                };
+                float dest[] = {0, 0, 0, 0};
+                
+                // Multiply translate matrix by origin vector.
+                for(int i = 0; i < 4; i++)
+                    for(int j = 0; j < 4; j++)
+                        dest[i] += matrix[i][j] * origin[j];
+                
+                it->setX(dest[0]);
+                it->setY(dest[1]);
+                it->setZ(dest[2]);
+            }
+        }
+    }
+}
+
+/**
+ * Iterate over vertices and draw them using GL_LINE_STRIP
+ **/
+void ObjModel::draw()
+{
+    for (auto &object : objects)
+    {
+        for(auto &face : object.getFaces())
+        {
+            glBegin(GL_LINE_STRIP);
+            for(auto &vertex : face)
+            {
+                glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());
+            }
+            glEnd();
+        }
     }
 }
