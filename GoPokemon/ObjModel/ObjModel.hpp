@@ -24,6 +24,7 @@ class ObjModel {
 private:
     vector<ObjVertex> vertices; // Cleared at finished reading file.
     vector<ObjObject> objects;
+    void multiplyMatrix(float (&matrix)[4][4]);
 public:
     ObjModel();
     ObjModel(string fileName);
@@ -31,6 +32,7 @@ public:
     vector<ObjObject> getObjects();
     void print();
     void translate(ObjVertex destination);
+    void rotateY(float degrees);
     void scale(float sx, float sy, float sz);
     void draw();
 };

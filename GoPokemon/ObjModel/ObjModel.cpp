@@ -12,6 +12,9 @@
 #include <cstring>
 #include <fstream>
 #include <stdlib.h>
+#include <math.h>
+
+#define PI 3.14159265
 
 using namespace std;
 
@@ -119,25 +122,12 @@ void ObjModel::print()
 }
 
 /**
- * Translate vectors to the given vertex.
- * @param destination Final point
- */
-void ObjModel::translate(ObjVertex destination)
+ * Multiply every point by the matrix to obtain the new point
+ * @param matrix Could be rotation, scale, translation, etc.
+ **/
+void ObjModel::multiplyMatrix(float (&matrix)[4][4])
 {
-    // Calculate dx, dy, dz using the first point as anchor.
-    //                               1st object  .  1st face  .  1st vertex
-    float dx = destination.getX() - objects.at(0).getFaces().at(0).at(0).getX();
-    float dy = destination.getY() - objects.at(0).getFaces().at(0).at(0).getY();
-    float dz = destination.getZ() - objects.at(0).getFaces().at(0).at(0).getZ();
-    
     vector<ObjVertex>::iterator it;
-    float matrix[4][4] = {
-        {1, 0, 0, dx},
-        {0, 1, 0, dy},
-        {0, 0, 1, dz},
-        {0, 0, 0, 1}
-    };
-    
     for (auto &object : objects)
     {
         for(auto &face : object.getFaces())
@@ -147,7 +137,8 @@ void ObjModel::translate(ObjVertex destination)
                 float origin[] = {
                     it->getX(),
                     it->getY(),
-                    it->getZ()
+                    it->getZ(),
+                    1
                 };
                 float dest[] = {0, 0, 0, 0};
                 
@@ -165,6 +156,55 @@ void ObjModel::translate(ObjVertex destination)
 }
 
 /**
+ * Translate vectors to the given vertex.
+ * @param destination Final point
+ */
+void ObjModel::translate(ObjVertex destination)
+{
+    // Calculate dx, dy, dz using the first point as anchor.
+    //                               1st object  .  1st face  .  1st vertex
+    float dx = destination.getX() - objects.at(0).getFaces().at(0).at(0).getX();
+    float dy = destination.getY() - objects.at(0).getFaces().at(0).at(0).getY();
+    float dz = destination.getZ() - objects.at(0).getFaces().at(0).at(0).getZ();
+    
+    float matrix[4][4] = {
+        {1, 0, 0, dx},
+        {0, 1, 0, dy},
+        {0, 0, 1, dz},
+        {0, 0, 0, 1}
+    };
+    multiplyMatrix(matrix);
+}
+
+/**
+ * Rotate model in Y axis. User the first point as reference.
+ * @param degrees to rotate
+ */
+void ObjModel::rotateY(float degrees)
+{
+    // Translate to origin.
+    ObjVertex original = objects.at(0).getFaces().at(0).at(0);
+    translate(ObjVertex(0, 0, 0));
+    
+    float cosR = cos(degrees * PI / 180);
+    float sinR = sin(degrees * PI / 180);
+    
+    
+    float matrix[4][4] = {
+        {cosR, 0, sinR, 0},
+        {0, 1, 0, 0},
+        {sinR*-1, 0, cosR, 0},
+        {0, 0, 0, 1}
+    };
+    
+    // Do rotation
+    multiplyMatrix(matrix);
+    
+    // Translate to original point
+    translate(original);
+}
+
+/**
 * Scale model.
 * @param sx Scale in x
 * @param sy Scale in y
@@ -172,7 +212,6 @@ void ObjModel::translate(ObjVertex destination)
 **/
 void ObjModel::scale(float sx, float sy, float sz)
 {
-    vector<ObjVertex>::iterator it;
     float matrix[4][4] = {
         {sx, 0, 0, 0},
         {0, sy, 0, 0},
@@ -180,30 +219,7 @@ void ObjModel::scale(float sx, float sy, float sz)
         {0, 0, 0, 1}
     };
     
-    for (auto &object : objects)
-    {
-        for(auto &face : object.getFaces())
-        {
-            for(it = face.begin(); it < face.end(); it++)
-            {
-                float origin[] = {
-                    it->getX(),
-                    it->getY(),
-                    it->getZ()
-                };
-                float dest[] = {0, 0, 0, 0};
-                
-                // Multiply translate matrix by origin vector.
-                for(int i = 0; i < 4; i++)
-                    for(int j = 0; j < 4; j++)
-                        dest[i] += matrix[i][j] * origin[j];
-                
-                it->setX(dest[0]);
-                it->setY(dest[1]);
-                it->setZ(dest[2]);
-            }
-        }
-    }
+    multiplyMatrix(matrix);
 }
 
 /**

@@ -105,6 +105,9 @@ vector<ObjVertex> Pokeball::getPathPoints()
  **/
 void Pokeball::update()
 {
+    // Rotate every 10 points
+    if(pathPointIndex % 10)
+        rotateY(4);
     
     if(++pathPointIndex >= pathPoints.size())
     {
