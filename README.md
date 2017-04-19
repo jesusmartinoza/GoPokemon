@@ -1,5 +1,5 @@
 # GoPokemon
-In this game you are a pokemon and have to avoid pokeballs
+Little game built with OpenGL and GLUT, the goal is to dodge the pokeballs. It's the opposite of PokemonGo.
 
 ### Wireframe
 ![](https://raw.githubusercontent.com/jesusmartinoza/GoPokemon/master/Readme%20assets/wireframe.gif)
