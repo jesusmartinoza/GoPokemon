@@ -19,6 +19,7 @@
 Pokemon pokemon;
 Pokeball pokeball;
 static int redisplay_interval;
+int score;
 
 /*==============================================================*
                   G L U T    F U N C T I O N S
@@ -57,6 +58,8 @@ void reshape(int w, int h)
     //glFrustum(-2, 2, -2, 2, 1, 20);
     gluPerspective(60.0, 1.0, 1.5, 30.0);
     gluLookAt (0.0, 0.0, 11.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    //gluLookAt (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    //gluLookAt (0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
@@ -67,6 +70,11 @@ void reshape(int w, int h)
 void timer(int)
 {
     pokeball.update();
+    if(pokemon.checkCollision(pokeball)) {
+        printf("Contacto");
+        score++;
+        pokeball.calculatePath();
+    }
     glutPostRedisplay();
     glutTimerFunc(redisplay_interval, timer, 0);
 }
@@ -83,15 +91,12 @@ void init (void)
     glShadeModel(GL_FLAT);
     
     pokemon = Pokemon("Models/Magnemite.obj");
+    pokeball = Pokeball("Models/Pokeball.obj");
+    score = 0;
     
-    ObjVertex p1 = ObjVertex(-6, 8, -12);
-    ObjVertex r1 = ObjVertex(-11, 3, -4);
-    ObjVertex r4 = ObjVertex(-3, 2, 1);
-    ObjVertex p4 = ObjVertex(-2, -2, 1);
-    pokeball = Pokeball("Models/Pokeball.obj", p1, p4, r1, r4);
-    
-    pokemon.translate(ObjVertex(0.3, 0, 2));
-    pokeball.scale(0.8, 0.8, 0.8);
+    pokemon.scale(0.8, 0.8, 0.8);
+    pokemon.translate(ObjVertex(0.3, -1.8, 4));
+    pokeball.scale(0.6, 0.6, 0.6);
     setFPS(50);
 }
 

@@ -15,29 +15,25 @@ using namespace std;
  **/
 Pokeball::Pokeball()
 {
-    this->p1 = ObjVertex(-6, 8, -12);
+    this->p1 = ObjVertex(-6, 12, -20);
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
-    this->p4 = ObjVertex(-2, -2, 1);
+    this->p4 = ObjVertex(-2, -4, 10);
     pathPointIndex = 0;
 }
 
 /**
  * Initialize obj model and create curve points.
  * @param fileName Name of the obj file.
- * @param p1 Start point
- * @param p4 End point
- * @param r1 Control point attached to p1
- * @param r4 Contron point attached to p4
  **/
-Pokeball::Pokeball(string fileName, ObjVertex p1, ObjVertex p4, ObjVertex r1, ObjVertex r4)
+Pokeball::Pokeball(string fileName)
     :ObjModel(fileName)
 {
-    this->p1 = p1;
-    this->r1 = r1;
-    this->r4 = r4;
-    this->p4 = p4;
-    this->n = 50;
+    this->p1 = ObjVertex(0, 12, -20);
+    this->r1 = ObjVertex(-11, 3, -4);
+    this->r4 = ObjVertex(-3, 2, 1);
+    this->p4 = ObjVertex(-2, -4, 10);
+    this->n = 80;
     
     calculatePath();
 }
@@ -47,8 +43,24 @@ Pokeball::Pokeball(string fileName, ObjVertex p1, ObjVertex p4, ObjVertex r1, Ob
  **/
 void Pokeball::calculatePath()
 {
-    float d = 1.0f/n;
+     // Reset path
+    pathPointIndex = 0;
+    pathPoints.clear();
     
+    int factor = rand()%4;
+    if((direction = rand() % 2))  // To right
+    {
+        this->p4 = ObjVertex(factor, -4, 10);
+        this->r1 = ObjVertex(factor + 6, 3, -4);
+        this->r4 = ObjVertex(factor - 2, 2, 1);
+    } else {
+        factor *= -1;
+        this->p4 = ObjVertex(factor, -4, 10);
+        this->r1 = ObjVertex(factor - 6, 3, -4);
+        this->r4 = ObjVertex(factor + 2, 2, 1);
+    }
+    
+    float d = 1.0f/n;
     for(float t = 0; t <= 1; t+=d)
     {
         float ct = (1-t);
@@ -69,30 +81,6 @@ void Pokeball::calculatePath()
 }
 
 /**
- * Set control point R1
- */
-void Pokeball::setR1(ObjVertex r1)
-{
-    this->r1 = r1;
-}
-
-/**
- * Set control point R4
- */
-void Pokeball::setR4(ObjVertex r4)
-{
-    this->r4 = r4;
-}
-
-/**
- * Set bezier curve point P1
- */
-void Pokeball::setP1(ObjVertex p1)
-{
-    this->p1 = p1;
-}
-
-/**
  * Return path points.
  **/
 vector<ObjVertex> Pokeball::getPathPoints()
@@ -106,17 +94,15 @@ vector<ObjVertex> Pokeball::getPathPoints()
 void Pokeball::update()
 {
     // Rotate every 10 points
-    if(pathPointIndex % 10)
-        rotateY(4);
-    
-    if(++pathPointIndex >= pathPoints.size())
-    {
-        pathPointIndex =  0;
-        r1 = ObjVertex(rand()%10 - rand()%20, rand()%3 - rand()%6, rand()%4 - rand()%8);
-        r4 = ObjVertex(rand()%4 - 8, rand()%3 - 4, rand()%2 - 4);
-        calculatePath();
+    if(pathPointIndex % 10) {
+        rotateY((60 - pathPointIndex)/3);
+        rotateZ(rand()%7);
     }
     
     ObjVertex dest = pathPoints.at(pathPointIndex);
     translate(dest);
+    
+    if(++pathPointIndex >= pathPoints.size()) {
+        calculatePath();
+    }
 }

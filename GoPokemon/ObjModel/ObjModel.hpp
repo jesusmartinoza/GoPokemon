@@ -25,16 +25,26 @@ private:
     vector<ObjVertex> vertices; // Cleared at finished reading file.
     vector<ObjObject> objects;
     void multiplyMatrix(float (&matrix)[4][4]);
+    float sizeX;
+    float sizeY;
+    float sizeZ;
 public:
     ObjModel();
     ObjModel(string fileName);
+    ObjVertex anchorPoint;
     vector<const char*> getSplittedLine(const string &line);
     vector<ObjObject> getObjects();
     void print();
     void translate(ObjVertex destination);
     void rotateY(float degrees);
+    void rotateZ(float degrees);
     void scale(float sx, float sy, float sz);
     void draw();
+    void calculateBoxSize();
+    bool checkCollision(ObjModel obj);
+    float getSizeX();
+    float getSizeY();
+    float getSizeZ();
 };
 
 #endif /* ObjModel_hpp */

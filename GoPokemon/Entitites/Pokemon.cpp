@@ -26,14 +26,14 @@ Pokemon::Pokemon(string fileName):ObjModel(fileName)
 
 void Pokemon::moveLeft()
 {
-    ObjVertex dest = getObjects().at(0).getFaces().at(0).at(0);
+    ObjVertex dest = anchorPoint;
     dest.setX(dest.getX() - 0.3);
     translate(dest);
 }
 
 void Pokemon::moveRight()
 {
-    ObjVertex dest = getObjects().at(0).getFaces().at(0).at(0);
+    ObjVertex dest = anchorPoint;
     dest.setX(dest.getX() + 0.3);
     translate(dest);
 }
