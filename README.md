@@ -1,7 +1,7 @@
 # GoPokemon
 Game built with OpenGL and GLUT, the goal is to dodge the pokeballs. It's the opposite of PokemonGo.
- - Obj Reader
- - AAABB collision
+ - OBJ Reader
+ - AABB collision
  - 3D transforms(Scale, rotation, translate) using matrices
  - Generate Bezier
 
