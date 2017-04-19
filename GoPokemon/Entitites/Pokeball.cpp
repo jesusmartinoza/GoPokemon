@@ -33,8 +33,7 @@ Pokeball::Pokeball(string fileName)
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
     this->p4 = ObjVertex(-2, -5, 10);
-    this->n = 80;
-    
+    this->n = 72;
     
     calculatePath();
     scale(0.6, 0.6, 0.6);
@@ -49,18 +48,25 @@ void Pokeball::calculatePath()
     pathPointIndex = 0;
     pathPoints.clear();
     
+    // Random path
     int factor = rand()%4;
+    int factor2 = rand()%10;
+    int factor3 = rand()%3;
+    int factor4 = rand()%5;
     if((direction = rand() % 2))  // To right
     {
-        this->p4 = ObjVertex(factor, -5, 10);
-        this->r1 = ObjVertex(factor + 6, 3, -4);
-        this->r4 = ObjVertex(factor - 2, 2, 1);
+        this->p4 = ObjVertex(factor, -5, 9);
+        this->r1 = ObjVertex(factor + factor2, 3, -4);
+        this->r4 = ObjVertex(factor - factor4, 2, 3 + factor3);
     } else {
         factor *= -1;
-        this->p4 = ObjVertex(factor, -5, 10);
-        this->r1 = ObjVertex(factor - 6, 3, -4);
-        this->r4 = ObjVertex(factor + 2, 2, 1);
+        this->p4 = ObjVertex(factor, -5, 9);
+        this->r1 = ObjVertex(factor - factor2, 3, -4);
+        this->r4 = ObjVertex(factor + factor4, 2, 3 - factor3);
     }
+    
+    // Calculate path.
+    this->n -= n > 50 ? 1 : 0;
     
     float d = 1.0f/n;
     for(float t = 0; t <= 1; t+=d)
@@ -93,7 +99,7 @@ vector<ObjVertex> Pokeball::getPathPoints()
 /**
  * Translate pokeball to next path point. Generate new random path when finish. 
  **/
-void Pokeball::update()
+bool Pokeball::update()
 {
     // Rotate every 10 points
     if(pathPointIndex % 10) {
@@ -106,5 +112,8 @@ void Pokeball::update()
     
     if(++pathPointIndex >= pathPoints.size()) {
         calculatePath();
+        return true;
     }
+    
+    return false;
 }

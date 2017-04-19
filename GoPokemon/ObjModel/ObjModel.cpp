@@ -136,9 +136,9 @@ void ObjModel::calculateBoxSize()
     anchorPoint.setZ(sizeZ / 2 + minZ);
     
     // Reduce size of the box
-    sizeX /= 6;
-    sizeY /= 4;
-    sizeZ /= 3;
+    sizeX /= 5;
+    sizeY /= 3;
+    sizeZ /= 2;
 }
 
 /**

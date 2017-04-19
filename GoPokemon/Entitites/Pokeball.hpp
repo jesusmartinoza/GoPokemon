@@ -24,7 +24,7 @@ public:
     Pokeball(std::string fileName);
     vector<ObjVertex> getPathPoints();
     void calculatePath();
-    void update();
+    bool update();
 };
 
 #endif /* Pokeball_hpp */

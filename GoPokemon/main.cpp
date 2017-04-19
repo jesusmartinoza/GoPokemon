@@ -20,6 +20,7 @@ Pokemon pokemon;
 Pokeball pokeball;
 static int redisplay_interval;
 int counter = 0;
+int score = 0;
 float timeClock = 0;
 
 /*==============================================================*
@@ -44,7 +45,9 @@ void display(void)
     pokemon.draw();
     pokeball.draw();
     string counterLabel = "Time: " + to_string(counter);
+    string scoreLabel = "Score: " + to_string(score);
     displayText(4, 5.5, 80, 100, 200, counterLabel);
+    displayText(4, 5, 80, 100, 200, scoreLabel);
     glPopMatrix();
     
     glutSwapBuffers();
@@ -81,12 +84,14 @@ void reshape(int w, int h)
  *==============================================================*/
 void timer(int)
 {
-    pokeball.update();
+    if(pokeball.update())
+        score += 4;
     pokemon.update();
     
     if(pokemon.checkCollision(pokeball)) {
         //pokemon.captured = true;
         pokeball.calculatePath();
+        score -= score >= 5 ? 5 : 0;
     }
     
     if(counter == 150)
