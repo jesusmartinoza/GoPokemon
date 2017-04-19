@@ -1,6 +1,9 @@
 # GoPokemon
 In this game you are a pokemon and have to avoid pokeballs
 
+### Wireframe
+![](https://raw.githubusercontent.com/jesusmartinoza/GoPokemon/master/Readme%20assets/wireframe.gif)
+
 ## Credits
 Created by Jesús Alberto Martínez Mendoza
 - [Pokeball model](http://tf3dm.com/3d-model/pokemon-ball-23563.html) by junglecat97
