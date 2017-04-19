@@ -19,11 +19,21 @@
 Pokemon pokemon;
 Pokeball pokeball;
 static int redisplay_interval;
-int score;
+int counter = 0;
+float timeClock = 0;
 
 /*==============================================================*
                   G L U T    F U N C T I O N S
  *==============================================================*/
+void displayText( float x, float y, int r, int g, int b, const string text ) {
+    int j = text.length();
+    
+    glColor3f( r, g, b );
+    glRasterPos2f( x, y );
+    for( int i = 0; i < j; i++ ) {
+        glutBitmapCharacter( GLUT_BITMAP_TIMES_ROMAN_24, text[i] );
+    }
+}
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -33,10 +43,12 @@ void display(void)
     glPushMatrix();
     pokemon.draw();
     pokeball.draw();
+    string counterLabel = "Time: " + to_string(counter);
+    displayText(4, 5.5, 80, 100, 200, counterLabel);
     glPopMatrix();
+    
     glutSwapBuffers();
 }
-
 void SpecialInput(int key, int x, int y)
 {
     switch(key)
@@ -70,14 +82,25 @@ void reshape(int w, int h)
 void timer(int)
 {
     pokeball.update();
+    pokemon.update();
+    
     if(pokemon.checkCollision(pokeball)) {
-        printf("Contacto");
-        score++;
+        //pokemon.captured = true;
         pokeball.calculatePath();
     }
+    
+    if(counter == 150)
+        pokemon.afraid = true;
+    
+    float currentTime = glutGet( GLUT_ELAPSED_TIME );
+    if( currentTime - timeClock > 1000 )
+    {
+        timeClock = currentTime;
+        counter++;
+    }
+    
     glutPostRedisplay();
-    glutTimerFunc(redisplay_interval, timer, 0);
-}
+    glutTimerFunc(redisplay_interval, timer, 0);}
 
 void setFPS(int fps)
 {
@@ -92,11 +115,7 @@ void init (void)
     
     pokemon = Pokemon("Models/Magnemite.obj");
     pokeball = Pokeball("Models/Pokeball.obj");
-    score = 0;
     
-    pokemon.scale(0.8, 0.8, 0.8);
-    pokemon.translate(ObjVertex(0.3, -1.8, 4));
-    pokeball.scale(0.6, 0.6, 0.6);
     setFPS(50);
 }
 

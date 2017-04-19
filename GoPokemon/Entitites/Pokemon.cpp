@@ -13,7 +13,6 @@
  **/
 Pokemon::Pokemon()
 {
-    
 }
 
 /**
@@ -21,19 +20,50 @@ Pokemon::Pokemon()
  **/
 Pokemon::Pokemon(string fileName):ObjModel(fileName)
 {
+    captured = false;
+    afraid = false;
     
+    scale(0.8, 0.8, 0.8);
+    translate(ObjVertex(0.3, -1.8, 4.7));
 }
 
 void Pokemon::moveLeft()
 {
     ObjVertex dest = anchorPoint;
-    dest.setX(dest.getX() - 0.3);
-    translate(dest);
+    if(dest.getX() > -3) {
+        //rotateY(-2);
+        dest.setX(dest.getX() - 0.3);
+        translate(dest);
+    }
 }
 
 void Pokemon::moveRight()
 {
     ObjVertex dest = anchorPoint;
-    dest.setX(dest.getX() + 0.3);
-    translate(dest);
+    if(dest.getX() < 3) {
+        //rotateY(2);
+        dest.setX(dest.getX() + 0.3);
+        translate(dest);
+    }
+}
+
+/**
+ * Capture the pokemon
+ **/
+void Pokemon::update()
+{
+    if(captured)
+    {
+        scale(0.97, 0.97, 0.97);
+    }
+   
+    if(afraid && rand()%2)
+    {
+        if(rotateDirection) {
+            rotateZ(-0.8);
+        } else {
+            rotateZ(0.8);
+        }
+        rotateDirection = !rotateDirection;
+    }
 }

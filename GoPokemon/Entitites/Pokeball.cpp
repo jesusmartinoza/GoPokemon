@@ -18,7 +18,7 @@ Pokeball::Pokeball()
     this->p1 = ObjVertex(-6, 12, -20);
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
-    this->p4 = ObjVertex(-2, -4, 10);
+    this->p4 = ObjVertex(-2, -5, 10);
     pathPointIndex = 0;
 }
 
@@ -32,10 +32,12 @@ Pokeball::Pokeball(string fileName)
     this->p1 = ObjVertex(0, 12, -20);
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
-    this->p4 = ObjVertex(-2, -4, 10);
+    this->p4 = ObjVertex(-2, -5, 10);
     this->n = 80;
     
+    
     calculatePath();
+    scale(0.6, 0.6, 0.6);
 }
 
 /**
@@ -50,12 +52,12 @@ void Pokeball::calculatePath()
     int factor = rand()%4;
     if((direction = rand() % 2))  // To right
     {
-        this->p4 = ObjVertex(factor, -4, 10);
+        this->p4 = ObjVertex(factor, -5, 10);
         this->r1 = ObjVertex(factor + 6, 3, -4);
         this->r4 = ObjVertex(factor - 2, 2, 1);
     } else {
         factor *= -1;
-        this->p4 = ObjVertex(factor, -4, 10);
+        this->p4 = ObjVertex(factor, -5, 10);
         this->r1 = ObjVertex(factor - 6, 3, -4);
         this->r4 = ObjVertex(factor + 2, 2, 1);
     }

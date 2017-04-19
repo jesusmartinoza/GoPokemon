@@ -284,7 +284,6 @@ void ObjModel::scale(float sx, float sy, float sz)
     };
     
     multiplyMatrix(matrix);
-    calculateBoxSize();
 }
 
 /**
@@ -306,6 +305,7 @@ void ObjModel::draw()
         }
     }
     
+    // Anchor point
     glColor3b(200, 100, 40);
     glBegin(GL_LINE_STRIP);
     glVertex3f(anchorPoint.getX() - 0.2, anchorPoint.getY() - 0.2, anchorPoint.getZ());

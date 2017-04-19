@@ -15,10 +15,14 @@
 
 class Pokemon: public ObjModel {
 private:
+    bool rotateDirection;
 public:
     Pokemon();
     Pokemon(std::string fileName);
+    bool afraid;
+    bool captured;
     void moveLeft();
     void moveRight();
+    void update();
 };
 #endif /* Pokemon_hpp */
