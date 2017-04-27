@@ -68,7 +68,7 @@ ObjModel::ObjModel(string fileName)
                         ObjVertex vertex = ObjVertex(vertices.at(i));
                         faceVector.push_back(vertex);
                     }
-                    objects.back().getFaces().push_back(faceVector);
+                    objects.back().getFaces().push_back(ObjFace(faceVector));
                     break;
                 }
 
@@ -77,6 +77,7 @@ ObjModel::ObjModel(string fileName)
         }
         file.close();
         calculateBoxSize();
+        vertices.clear();
     }
     
     else cout << "Unable to open file";
@@ -163,7 +164,7 @@ void ObjModel::multiplyMatrix(float (&matrix)[4][4])
     {
         for(auto &face : object.getFaces())
         {
-            for(it = face.begin(); it < face.end(); it++)
+            for(it = face.getVertices().begin(); it < face.getVertices().end(); it++)
             {
                 float origin[] = {
                     it->getX(),
@@ -297,7 +298,7 @@ void ObjModel::draw()
         for(auto &face : object.getFaces())
         {
             glBegin(GL_LINE_STRIP);
-            for(auto &vertex : face)
+            for(auto &vertex : face.getVertices())
             {
                 glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());
             }

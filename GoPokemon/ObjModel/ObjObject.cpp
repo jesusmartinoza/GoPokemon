@@ -12,7 +12,7 @@ ObjObject::ObjObject(string name)
     this->name = name;
 }
 
-vector<vector<ObjVertex> >& ObjObject::getFaces()
+vector<ObjFace>& ObjObject::getFaces()
 {
     return faces;
 }
@@ -20,4 +20,9 @@ vector<vector<ObjVertex> >& ObjObject::getFaces()
 string ObjObject::getName()
 {
     return name;
+}
+
+void ObjObject::addFace(ObjFace face)
+{
+    faces.push_back(face);
 }

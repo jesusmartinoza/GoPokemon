@@ -13,18 +13,20 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include "ObjVertex.hpp"
+#include "ObjFace.hpp"
+
 using namespace std;
 
 class ObjObject {
 private:
     string name;
-    vector<vector<ObjVertex> > faces;
+    vector<ObjFace> faces;
 public:
     ObjObject(string name);
     string getName();
     void addFaceVector(vector<int> faceVector);
-    vector<vector<ObjVertex> >& getFaces();
+    vector<ObjFace>& getFaces();
+    void addFace(ObjFace face);
 };
 
 #endif /*ObjObject_hpp */
