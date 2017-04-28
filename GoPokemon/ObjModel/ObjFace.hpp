@@ -24,6 +24,7 @@ public:
     ObjFace(vector<ObjVertex> vertices);
     vector<ObjVertex>& getVertices();
     ObjVertex getNormal();
+    void calculateNormal();
     bool isVisible();
 };
 #endif /* ObjFace_hpp */

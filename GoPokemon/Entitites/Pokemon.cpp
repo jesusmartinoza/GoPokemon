@@ -23,6 +23,7 @@ Pokemon::Pokemon(string fileName):ObjModel(fileName)
     captured = false;
     afraid = false;
     
+    rotateY(180);
     scale(0.8, 0.8, 0.8);
     translate(ObjVertex(0.3, -1.8, 4.7));
 }

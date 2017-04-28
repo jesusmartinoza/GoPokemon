@@ -71,8 +71,8 @@ void reshape(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glFrustum(-2, 2, -2, 2, 1, 20);
-    gluPerspective(60.0, 1.0, 1.5, 30.0);
-    gluLookAt (0.0, 0.0, 11.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluPerspective(60.0, 1.0, 0.5, 30.0);
+    gluLookAt (0.0, 0.0, 11.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0);
     //gluLookAt (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
     //gluLookAt (0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
     glMatrixMode(GL_MODELVIEW);
@@ -84,7 +84,7 @@ void reshape(int w, int h)
  *==============================================================*/
 void timer(int)
 {
-    if(pokeball.update())
+    if(pokeball.update()) // true if path is finished
         score += 4;
     pokemon.update();
     

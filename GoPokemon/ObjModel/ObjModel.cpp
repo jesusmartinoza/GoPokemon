@@ -154,6 +154,16 @@ void ObjModel::print()
 }
 
 /**
+ * Calculate normals of every face.
+ **/
+void ObjModel::calculateNormals()
+{
+    for (auto &object : objects)
+        for(auto &face : object.getFaces())
+            face.calculateNormal();
+}
+
+/**
  * Multiply every point by the matrix to obtain the new point
  * @param matrix Could be rotation, scale, translation, etc.
  **/
@@ -201,6 +211,7 @@ void ObjModel::multiplyMatrix(float (&matrix)[4][4])
     anchorPoint.setX(dest[0]);
     anchorPoint.setY(dest[1]);
     anchorPoint.setZ(dest[2]);
+    calculateNormals();
 }
 
 /**
@@ -292,17 +303,20 @@ void ObjModel::scale(float sx, float sy, float sz)
  **/
 void ObjModel::draw()
 {
-    glColor3f(255, 255, 255);
+    glColor3f(1, 1, 1);
     for (auto &object : objects)
     {
         for(auto &face : object.getFaces())
         {
-            glBegin(GL_LINE_STRIP);
-            for(auto &vertex : face.getVertices())
+            if(face.isVisible())
             {
-                glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());
+                glBegin(GL_LINE_STRIP);
+                for(auto &vertex : face.getVertices())
+                {
+                    glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());
+                }
+                glEnd();
             }
-            glEnd();
         }
     }
     

@@ -19,3 +19,19 @@ vector<ObjVertex>& ObjFace::getVertices()
 {
     return vertices;
 }
+
+bool ObjFace::isVisible()
+{
+    return visible;
+}
+
+/**
+ * Calculate normal using the first 3 points. And determine if the face is visible.
+ **/
+void ObjFace::calculateNormal()
+{
+    normal = (vertices.at(1) - vertices.at(0))*(vertices.at(2) - vertices.at(0));
+    
+    float dotProduct = normal.dot(ObjVertex(0, 0, 11));
+    visible = dotProduct >= 0;
+}

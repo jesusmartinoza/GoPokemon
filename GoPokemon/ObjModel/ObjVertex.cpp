@@ -53,3 +53,30 @@ void ObjVertex::print()
 {
     std::cout << x << " " << y << " " << z << std::endl;
 }
+
+/**
+ * @return Dot product
+ **/
+float ObjVertex::dot(ObjVertex v)
+{
+    return x * v.x + y + v.y + z * v.z;
+}
+
+/**
+ * @return Cross product
+ **/
+ObjVertex ObjVertex::operator*(const ObjVertex& v)
+{
+    return ObjVertex(y * v.z - z * v.y,
+                     z * v.x - x * v.z,
+                     x * v.y - y * v.x);
+}
+
+/**
+ * @return Substract of vectors
+ **/
+ObjVertex ObjVertex::operator-(const ObjVertex& v)
+{
+    return ObjVertex(x - v.x, y - v.y, z - v.z);
+}
+

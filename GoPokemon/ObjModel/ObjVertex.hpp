@@ -28,6 +28,10 @@ public:
     void setX(float x);
     void setY(float y);
     void setZ(float z);
+    float dot(ObjVertex v);
+    ObjVertex operator*(const ObjVertex& v);
+    ObjVertex operator-(const ObjVertex& v);
+
 };
 
 #endif /* ObjVertex_hpp */

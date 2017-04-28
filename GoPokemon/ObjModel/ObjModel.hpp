@@ -35,6 +35,7 @@ public:
     vector<const char*> getSplittedLine(const string &line);
     vector<ObjObject> getObjects();
     void print();
+    void calculateNormals();
     void translate(ObjVertex destination);
     void rotateY(float degrees);
     void rotateZ(float degrees);

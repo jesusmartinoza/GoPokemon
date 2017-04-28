@@ -104,7 +104,7 @@ bool Pokeball::update()
     // Rotate every 10 points
     if(pathPointIndex % 10) {
         rotateY((60 - pathPointIndex)/3);
-        rotateZ(rand()%7);
+        rotateY(rand()%7);
     }
     
     ObjVertex dest = pathPoints.at(pathPointIndex);
