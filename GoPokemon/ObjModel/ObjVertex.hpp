@@ -29,6 +29,7 @@ public:
     void setY(float y);
     void setZ(float z);
     float dot(ObjVertex v);
+    void normalize();
     ObjVertex operator*(const ObjVertex& v);
     ObjVertex operator-(const ObjVertex& v);
 

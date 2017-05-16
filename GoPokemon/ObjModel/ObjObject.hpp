@@ -20,7 +20,6 @@ using namespace std;
 class ObjObject {
 private:
     string name;
-    
     vector<ObjFace> faces;
 public:
     ObjObject(string name);

@@ -20,11 +20,14 @@ private:
     vector<ObjVertex> vertices;
     ObjVertex normal;
     bool visible;
+    float illumination;
 public:
     ObjFace(vector<ObjVertex> vertices);
     vector<ObjVertex>& getVertices();
     ObjVertex getNormal();
     void calculateNormal();
+    float getIllumination();
+    void calculateIllumination();
     bool isVisible();
 };
 #endif /* ObjFace_hpp */

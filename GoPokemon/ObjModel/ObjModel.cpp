@@ -159,8 +159,10 @@ void ObjModel::print()
 void ObjModel::calculateNormals()
 {
     for (auto &object : objects)
-        for(auto &face : object.getFaces())
+        for(auto &face : object.getFaces()) {
             face.calculateNormal();
+            face.calculateIllumination();
+        }
 }
 
 /**
@@ -197,6 +199,7 @@ void ObjModel::multiplyMatrix(float (&matrix)[4][4])
             }
             
             itFace->calculateNormal();
+            itFace->calculateIllumination();
         }
     }
     
@@ -307,31 +310,15 @@ void ObjModel::scale(float sx, float sy, float sz)
  **/
 void ObjModel::draw()
 {
-    /*glColor3f(1, 1, 1);
+    glColor3f(1, 1, 1);
     for (auto &object : objects)
     {
         for(auto &face : object.getFaces())
         {
             if(face.isVisible())
             {
+                glColor3f(face.getIllumination(), face.getIllumination()/2, 0.0);
                 glBegin(GL_POLYGON);
-                for(auto &vertex : face.getVertices())
-                {
-                    glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());
-                }
-                glEnd();
-            }
-        }
-    }*/
-    
-    glColor3f(.8, 0.8, 0.8);
-    for (auto &object : objects)
-    {
-        for(auto &face : object.getFaces())
-        {
-            if(face.isVisible())
-            {
-                glBegin(GL_LINE_STRIP);
                 for(auto &vertex : face.getVertices())
                 {
                     glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());
@@ -342,7 +329,7 @@ void ObjModel::draw()
     }
     
     // Anchor point
-    glColor3b(200, 100, 40);
+    /*glColor3b(200, 100, 40);
     glBegin(GL_LINE_STRIP);
     glVertex3f(anchorPoint.getX() - 0.2, anchorPoint.getY() - 0.2, anchorPoint.getZ());
     glVertex3f(anchorPoint.getX(), anchorPoint.getY(), anchorPoint.getZ());
@@ -353,7 +340,7 @@ void ObjModel::draw()
     glVertex3f(anchorPoint.getX() - 0.2, anchorPoint.getY() + 0.2, anchorPoint.getZ());
     glVertex3f(anchorPoint.getX(), anchorPoint.getY(), anchorPoint.getZ());
     glVertex3f(anchorPoint.getX() + 0.2, anchorPoint.getY() - 0.2, anchorPoint.getZ());
-    glEnd();
+    glEnd();*/
 
 }
 

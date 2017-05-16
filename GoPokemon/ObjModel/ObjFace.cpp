@@ -35,3 +35,26 @@ void ObjFace::calculateNormal()
     float dotProduct = normal.dot(ObjVertex(0, 0, 11));
     visible = dotProduct >= 0;
 }
+
+/**
+ * Calculate illumination
+ **/
+void ObjFace::calculateIllumination()
+{
+    float k_a = 0.5;
+    float k_d = 0.5;
+    float I_a = 1.0;
+    float I_l = 0.5;
+    ObjVertex light = ObjVertex(1, 0, 1);
+    normal.normalize();
+    
+    float prod = normal.dot(light);
+    illumination = (I_a * k_a) + (I_l * k_d * prod);
+}
+
+/**
+ * @return illumination
+ **/
+float ObjFace::getIllumination() {
+    return illumination;
+}

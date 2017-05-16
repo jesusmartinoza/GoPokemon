@@ -6,6 +6,7 @@
 //
 
 #include "ObjVertex.hpp"
+#include <math.h>
 
 ObjVertex::ObjVertex()
 {
@@ -80,3 +81,17 @@ ObjVertex ObjVertex::operator-(const ObjVertex& v)
     return ObjVertex(x - v.x, y - v.y, z - v.z);
 }
 
+/**
+ * Normal to unit vector
+ **/
+void ObjVertex::normalize()
+{
+    float magnitude;
+    magnitude = sqrt(x * x +
+                     y * y +
+                     z * z);
+    
+    x /= magnitude;
+    y /= magnitude;
+    z /= magnitude;
+}
