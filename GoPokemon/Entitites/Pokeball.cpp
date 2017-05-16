@@ -19,7 +19,7 @@ Pokeball::Pokeball()
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
     this->p4 = ObjVertex(-2, -5, 10);
-    pathPointIndex = 0;
+    this->n = 80;
 }
 
 /**
@@ -33,7 +33,7 @@ Pokeball::Pokeball(string fileName)
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
     this->p4 = ObjVertex(-2, -5, 10);
-    this->n = 72;
+    this->n = 80;
     
     calculatePath();
     scale(0.6, 0.6, 0.6);
@@ -102,8 +102,8 @@ vector<ObjVertex> Pokeball::getPathPoints()
 bool Pokeball::update()
 {
     // Rotate every 10 points
-    if(pathPointIndex % 10) {
-        rotateY((60 - pathPointIndex)/3);
+    if(pathPointIndex < 50 && pathPointIndex % 4) {
+        rotateY((80 - pathPointIndex)/3);
         rotateY(rand()%7);
     }
     

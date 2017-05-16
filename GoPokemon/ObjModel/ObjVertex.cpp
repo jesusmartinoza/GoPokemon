@@ -59,7 +59,7 @@ void ObjVertex::print()
  **/
 float ObjVertex::dot(ObjVertex v)
 {
-    return x * v.x + y + v.y + z * v.z;
+    return (x * v.x) + (y * v.y) + (z * v.z);
 }
 
 /**

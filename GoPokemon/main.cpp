@@ -72,7 +72,7 @@ void reshape(int w, int h)
     glLoadIdentity();
     //glFrustum(-2, 2, -2, 2, 1, 20);
     gluPerspective(60.0, 1.0, 0.5, 30.0);
-    gluLookAt (0.0, 0.0, 11.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0);
+    gluLookAt (0.0, 0.0, 11.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     //gluLookAt (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
     //gluLookAt (0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
     glMatrixMode(GL_MODELVIEW);

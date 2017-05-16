@@ -170,11 +170,13 @@ void ObjModel::calculateNormals()
 void ObjModel::multiplyMatrix(float (&matrix)[4][4])
 {
     vector<ObjVertex>::iterator it;
+    vector<ObjFace>::iterator itFace;
+
     for (auto &object : objects)
     {
-        for(auto &face : object.getFaces())
+        for(itFace = object.getFaces().begin(); itFace < object.getFaces().end(); itFace++)
         {
-            for(it = face.getVertices().begin(); it < face.getVertices().end(); it++)
+            for(it = itFace->getVertices().begin(); it < itFace->getVertices().end(); it++)
             {
                 float origin[] = {
                     it->getX(),
@@ -193,8 +195,11 @@ void ObjModel::multiplyMatrix(float (&matrix)[4][4])
                 it->setY(dest[1]);
                 it->setZ(dest[2]);
             }
+            
+            itFace->calculateNormal();
         }
     }
+    
     // Update anchorPoint
     float anchor[] = {
         anchorPoint.getX(),
@@ -211,7 +216,6 @@ void ObjModel::multiplyMatrix(float (&matrix)[4][4])
     anchorPoint.setX(dest[0]);
     anchorPoint.setY(dest[1]);
     anchorPoint.setZ(dest[2]);
-    calculateNormals();
 }
 
 /**
@@ -303,7 +307,24 @@ void ObjModel::scale(float sx, float sy, float sz)
  **/
 void ObjModel::draw()
 {
-    glColor3f(1, 1, 1);
+    /*glColor3f(1, 1, 1);
+    for (auto &object : objects)
+    {
+        for(auto &face : object.getFaces())
+        {
+            if(face.isVisible())
+            {
+                glBegin(GL_POLYGON);
+                for(auto &vertex : face.getVertices())
+                {
+                    glVertex3f(vertex.getX(), vertex.getY(), vertex.getZ());
+                }
+                glEnd();
+            }
+        }
+    }*/
+    
+    glColor3f(.8, 0.8, 0.8);
     for (auto &object : objects)
     {
         for(auto &face : object.getFaces())
