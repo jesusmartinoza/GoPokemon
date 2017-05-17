@@ -41,8 +41,8 @@ void ObjFace::calculateNormal()
  **/
 void ObjFace::calculateIllumination()
 {
-    float k_a = 0.5;
-    float k_d = 0.5;
+    float k_a = 0.3;
+    float k_d = 0.7;
     float I_a = 1.0;
     float I_l = 0.5;
     ObjVertex light = ObjVertex(1, 0, 1);

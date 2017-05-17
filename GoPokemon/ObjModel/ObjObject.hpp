@@ -17,16 +17,23 @@
 
 using namespace std;
 
+struct COLOR {
+    float r, g, b, a;
+};
+
 class ObjObject {
 private:
     string name;
     vector<ObjFace> faces;
+    COLOR color;
 public:
     ObjObject(string name);
     string getName();
     void addFaceVector(vector<int> faceVector);
     vector<ObjFace>& getFaces();
     void addFace(ObjFace face);
+    void setColor(COLOR color);
+    COLOR &getColor();
 };
 
 #endif /*ObjObject_hpp */

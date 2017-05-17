@@ -33,7 +33,7 @@ Pokeball::Pokeball(string fileName)
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
     this->p4 = ObjVertex(-2, -5, 10);
-    this->n = 80;
+    this->n = 90;
     
     calculatePath();
     scale(0.6, 0.6, 0.6);
@@ -66,7 +66,7 @@ void Pokeball::calculatePath()
     }
     
     // Calculate path.
-    this->n -= n > 50 ? 1 : 0;
+    this->n -= n > 60 ? 1 : 0;
     
     float d = 1.0f/n;
     for(float t = 0; t <= 1; t+=d)

@@ -23,7 +23,6 @@ using namespace std;
  **/
 ObjModel::ObjModel()
 {
-    
 }
 
 /**
@@ -48,6 +47,18 @@ ObjModel::ObjModel(string fileName)
                     const char* name = getSplittedLine(line).at(0);
                     ObjObject object = ObjObject(string(name));
                     this->objects.push_back(object);
+                    break;
+                }
+                // Create color and set it to last OBJ object created.
+                case 'c': {
+                    vector<const char*> color = getSplittedLine(line);
+                    COLOR c;
+                    c.r = ::atof(color.at(0));
+                    c.g = ::atof(color.at(1));
+                    c.b = ::atof(color.at(2));
+                    c.a = ::atof(color.at(3));
+                    
+                    objects.back().setColor(c);
                     break;
                 }
                 // Create vertex and add it to vector.
@@ -313,11 +324,13 @@ void ObjModel::draw()
     glColor3f(1, 1, 1);
     for (auto &object : objects)
     {
+        COLOR color = object.getColor();
         for(auto &face : object.getFaces())
         {
             if(face.isVisible())
             {
-                glColor3f(face.getIllumination(), face.getIllumination()/2, 0.0);
+                float light = face.getIllumination();
+                glColor3f(color.r - light, color.g - light, color.b - light);
                 glBegin(GL_POLYGON);
                 for(auto &vertex : face.getVertices())
                 {
