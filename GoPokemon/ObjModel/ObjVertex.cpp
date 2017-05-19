@@ -82,7 +82,7 @@ ObjVertex ObjVertex::operator-(const ObjVertex& v)
 }
 
 /**
- * Normal to unit vector
+ * Vector to unit
  **/
 void ObjVertex::normalize()
 {

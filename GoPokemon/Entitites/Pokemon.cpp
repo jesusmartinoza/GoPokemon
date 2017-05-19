@@ -32,7 +32,6 @@ void Pokemon::moveLeft()
 {
     ObjVertex dest = anchorPoint;
     if(dest.getX() > -3) {
-        //rotateY(-2);
         dest.setX(dest.getX() - 0.3);
         translate(dest);
     }
@@ -42,7 +41,6 @@ void Pokemon::moveRight()
 {
     ObjVertex dest = anchorPoint;
     if(dest.getX() < 3) {
-        //rotateY(2);
         dest.setX(dest.getX() + 0.3);
         translate(dest);
     }

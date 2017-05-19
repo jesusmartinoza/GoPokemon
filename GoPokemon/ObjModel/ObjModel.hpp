@@ -23,11 +23,12 @@ using namespace std;
 class ObjModel {
 private:
     vector<ObjVertex> vertices; // Cleared at finished reading file.
-    vector<ObjObject> objects;
     void multiplyMatrix(float (&matrix)[4][4]);
     float sizeX;
     float sizeY;
     float sizeZ;
+protected:
+    vector<ObjObject> objects;
 public:
     ObjModel();
     ObjModel(string fileName);

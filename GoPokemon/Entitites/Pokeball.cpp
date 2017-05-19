@@ -29,11 +29,12 @@ Pokeball::Pokeball()
 Pokeball::Pokeball(string fileName)
     :ObjModel(fileName)
 {
+    //reorderObjects();
     this->p1 = ObjVertex(0, 12, -20);
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
     this->p4 = ObjVertex(-2, -5, 10);
-    this->n = 90;
+    this->n = 200;
     
     calculatePath();
     scale(0.6, 0.6, 0.6);
@@ -116,4 +117,15 @@ bool Pokeball::update()
     }
     
     return false;
+}
+
+/**
+ * Reorder obj to draw correctly
+ **/
+void Pokeball::reorderObjects()
+{
+    ObjObject unionPart = objects.at(2);
+    
+    objects.erase(objects.begin() + 1);
+    objects.insert(objects.begin() + 4, unionPart);
 }

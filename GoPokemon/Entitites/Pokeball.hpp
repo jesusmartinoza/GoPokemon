@@ -25,6 +25,7 @@ public:
     vector<ObjVertex> getPathPoints();
     void calculatePath();
     bool update();
+    void reorderObjects();
 };
 
 #endif /* Pokeball_hpp */

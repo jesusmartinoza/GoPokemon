@@ -19,6 +19,7 @@ class ObjFace {
 private:
     vector<ObjVertex> vertices;
     ObjVertex normal;
+    ObjVertex PRP;
     bool visible;
     float illumination;
 public:

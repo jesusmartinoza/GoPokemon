@@ -10,16 +10,27 @@
 
 using namespace std;
 
+/**
+ * Copy constructor
+ **/
 ObjFace::ObjFace(vector<ObjVertex> vector)
 {
+    PRP = ObjVertex(0, 0.3, 12);
+    PRP.normalize();
     vertices.swap(vector);
 }
 
+/**
+ * @return face vertices
+ **/
 vector<ObjVertex>& ObjFace::getVertices()
 {
     return vertices;
 }
 
+/**
+ * Setted in calculateNormal
+ **/
 bool ObjFace::isVisible()
 {
     return visible;
@@ -32,8 +43,10 @@ void ObjFace::calculateNormal()
 {
     normal = (vertices.at(1) - vertices.at(0))*(vertices.at(2) - vertices.at(0));
     
-    float dotProduct = normal.dot(ObjVertex(0, 0, 11));
+    float dotProduct = normal.dot(PRP);
     visible = dotProduct >= 0;
+    
+    normal.normalize();
 }
 
 /**
@@ -41,15 +54,16 @@ void ObjFace::calculateNormal()
  **/
 void ObjFace::calculateIllumination()
 {
-    float k_a = 0.3;
-    float k_d = 0.7;
-    float I_a = 1.0;
-    float I_l = 0.5;
-    ObjVertex light = ObjVertex(1, 0, 1);
-    normal.normalize();
+    float k_a = 0.7; // Ambient reflection
+    float k_d = 0.2; // Diffuse reflection
+    float k_s = 0.3; // Specular reflection
+    float I_a = 0.8; // Intensity of ambient light
+    float I_l = 0.9;
+    ObjVertex light = ObjVertex(0, -1, -1);//(-1, -1, -0.3);
+    ObjVertex R = ObjVertex(0, 1, -1);
+    float specular = R.dot(PRP);
     
-    float prod = normal.dot(light);
-    illumination = (I_a * k_a) + (I_l * k_d * prod);
+    illumination = (I_a * k_a) + (I_l * k_d * normal.dot(light)) + (I_l * k_s * specular * specular *specular);
 }
 
 /**
