@@ -24,14 +24,15 @@ Pokemon::Pokemon(string fileName):ObjModel(fileName)
     afraid = false;
     
     rotateY(180);
-    scale(0.8, 0.8, 0.8);
     translate(ObjVertex(0.3, -1.8, 4.7));
+    reorderObjects();
 }
 
 void Pokemon::moveLeft()
 {
     ObjVertex dest = anchorPoint;
-    if(dest.getX() > -3) {
+    if(dest.getX() > -2) {
+        //rotateY(1.4);
         dest.setX(dest.getX() - 0.3);
         translate(dest);
     }
@@ -40,7 +41,8 @@ void Pokemon::moveLeft()
 void Pokemon::moveRight()
 {
     ObjVertex dest = anchorPoint;
-    if(dest.getX() < 3) {
+    if(dest.getX() < 2) {
+        //rotateY(-1.4);
         dest.setX(dest.getX() + 0.3);
         translate(dest);
     }
@@ -65,4 +67,21 @@ void Pokemon::update()
         }
         rotateDirection = !rotateDirection;
     }
+}
+
+/**
+ * Reorder obj to draw correctly
+ **/
+void Pokemon::reorderObjects()
+{
+    //ObjObject unionPart = objects.at(2);
+    
+    //objects.erase(objects.begin() + 1);s
+    //objects.insert(objects.begin() + 4, unionPart);
+    
+    ObjObject shield = objects.at(0);
+    
+    objects.erase(objects.begin());
+    objects.insert(objects.begin()+1, shield);
+    
 }

@@ -39,6 +39,7 @@ void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.13, 0.22, 0.29, 1.00);
+    glClearColor(0.24, 0.31, 0.51, 1.00);
     glLoadIdentity();
     
     glPushMatrix();
@@ -94,7 +95,7 @@ void timer(int)
         score -= score >= 5 ? 5 : 0;
     }
     
-    if(counter == 150)
+    if(counter == 30)
         pokemon.afraid = true;
     
     float currentTime = glutGet( GLUT_ELAPSED_TIME );
@@ -118,7 +119,7 @@ void init (void)
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glShadeModel(GL_FLAT);
     
-    pokemon = Pokemon("Models/Magnemite.obj");
+    pokemon = Pokemon("Models/Squirtle.obj");
     pokeball = Pokeball("Models/Pokeball.obj");
     
     setFPS(50);

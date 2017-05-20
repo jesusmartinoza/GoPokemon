@@ -29,12 +29,12 @@ Pokeball::Pokeball()
 Pokeball::Pokeball(string fileName)
     :ObjModel(fileName)
 {
-    //reorderObjects();
+    reorderObjects();
     this->p1 = ObjVertex(0, 12, -20);
     this->r1 = ObjVertex(-11, 3, -4);
     this->r4 = ObjVertex(-3, 2, 1);
     this->p4 = ObjVertex(-2, -5, 10);
-    this->n = 200;
+    this->n = 90;
     
     calculatePath();
     scale(0.6, 0.6, 0.6);
@@ -105,7 +105,7 @@ bool Pokeball::update()
     // Rotate every 10 points
     if(pathPointIndex < 50 && pathPointIndex % 4) {
         rotateY((80 - pathPointIndex)/3);
-        rotateY(rand()%7);
+        //rotateY(rand()%7);
     }
     
     ObjVertex dest = pathPoints.at(pathPointIndex);
@@ -124,8 +124,29 @@ bool Pokeball::update()
  **/
 void Pokeball::reorderObjects()
 {
-    ObjObject unionPart = objects.at(2);
+    //ObjObject unionPart = objects.at(2);
+    
+    //objects.erase(objects.begin() + 1);s
+    //objects.insert(objects.begin() + 4, unionPart);
+    
+    ObjObject whiteCircle = objects.at(5);
+    
+    objects.erase(objects.begin() + 5);
+    objects.insert(objects.begin() + 3, whiteCircle);
+    
+    ObjObject littleCircle = objects.at(1);
     
     objects.erase(objects.begin() + 1);
-    objects.insert(objects.begin() + 4, unionPart);
+    objects.insert(objects.begin() + 3, littleCircle);
+    
+    ObjObject whitePart = objects.at(0);
+    
+    objects.erase(objects.begin());
+    objects.insert(objects.begin() + 3, whitePart);
+    
+    ObjObject unionBlack = objects.at(5);
+    
+    objects.erase(objects.begin() + 5);
+    objects.insert(objects.begin() + 3, unionBlack);
+
 }

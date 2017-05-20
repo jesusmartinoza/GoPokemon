@@ -24,5 +24,6 @@ public:
     void moveLeft();
     void moveRight();
     void update();
+    void reorderObjects();
 };
 #endif /* Pokemon_hpp */

@@ -15,7 +15,7 @@ using namespace std;
  **/
 ObjFace::ObjFace(vector<ObjVertex> vector)
 {
-    PRP = ObjVertex(0, 0.3, 12);
+    PRP = ObjVertex(0, 1, 11);
     PRP.normalize();
     vertices.swap(vector);
 }
@@ -54,16 +54,16 @@ void ObjFace::calculateNormal()
  **/
 void ObjFace::calculateIllumination()
 {
-    float k_a = 0.7; // Ambient reflection
-    float k_d = 0.2; // Diffuse reflection
-    float k_s = 0.3; // Specular reflection
-    float I_a = 0.8; // Intensity of ambient light
-    float I_l = 0.9;
+    float k_a = 0.3; // Ambient reflection
+    float k_d = 0.7; // Diffuse reflection
+    float k_s = 1.0; // Specular reflection
+    float I_a = 0.4; // Intensity of ambient light
+    float I_l = 0.7;
     ObjVertex light = ObjVertex(0, -1, -1);//(-1, -1, -0.3);
     ObjVertex R = ObjVertex(0, 1, -1);
     float specular = R.dot(PRP);
     
-    illumination = (I_a * k_a) + (I_l * k_d * normal.dot(light)) + (I_l * k_s * specular * specular *specular);
+    illumination = (I_a * k_a) + (I_l * k_d * normal.dot(light)) + (I_l * k_s * specular * specular);
 }
 
 /**
