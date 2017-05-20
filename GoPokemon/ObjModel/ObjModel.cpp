@@ -148,7 +148,7 @@ void ObjModel::calculateBoxSize()
     anchorPoint.setZ(sizeZ / 2 + minZ);
     
     // Reduce size of the box
-    sizeX /= 5;
+    sizeX /= 4;
     sizeY /= 3;
     sizeZ /= 2;
 }
@@ -321,7 +321,6 @@ void ObjModel::scale(float sx, float sy, float sz)
  **/
 void ObjModel::draw()
 {
-    glColor3f(1, 1, 1);
     for (auto &object : objects)
     {
         COLOR color = object.getColor();
@@ -341,7 +340,7 @@ void ObjModel::draw()
         }
     }
     
-    // Anchor point
+    // Anchor point. Just for debugging purposes
     /*glColor3b(200, 100, 40);
     glBegin(GL_LINE_STRIP);
     glVertex3f(anchorPoint.getX() - 0.2, anchorPoint.getY() - 0.2, anchorPoint.getZ());
@@ -409,4 +408,17 @@ float ObjModel::getSizeZ()
 vector<ObjObject> ObjModel::getObjects()
 {
     return objects;
+}
+
+/**
+ * Change position of object
+ * @param actualPos Actual position of the object
+ * @param newPos desired position of the object
+ **/
+void ObjModel::reorderObject(int actualPos, int newPos)
+{
+    ObjObject object = objects.at(actualPos);
+    
+    objects.erase(objects.begin() + actualPos);
+    objects.insert(objects.begin() + newPos, object);
 }

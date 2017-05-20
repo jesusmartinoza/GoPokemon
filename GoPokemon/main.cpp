@@ -38,10 +38,8 @@ void displayText( float x, float y, int r, int g, int b, const string text ) {
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0.13, 0.22, 0.29, 1.00);
-    glClearColor(0.24, 0.31, 0.51, 1.00);
-    glLoadIdentity();
-    
+    //glClearColor(0.24, 0.31, 0.51, 1.00);
+    glClearColor(0.12, 0.20, 0.28, 1.00);
     glPushMatrix();
     pokemon.draw();
     pokeball.draw();
@@ -95,7 +93,7 @@ void timer(int)
         score -= score >= 5 ? 5 : 0;
     }
     
-    if(counter == 30)
+    if(counter == 150)
         pokemon.afraid = true;
     
     float currentTime = glutGet( GLUT_ELAPSED_TIME );
@@ -106,7 +104,8 @@ void timer(int)
     }
     
     glutPostRedisplay();
-    glutTimerFunc(redisplay_interval, timer, 0);}
+    glutTimerFunc(redisplay_interval, timer, 0);
+}
 
 void setFPS(int fps)
 {
@@ -128,7 +127,7 @@ void init (void)
 int main(int argc, char * argv[])
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
+    glutInitDisplayMode (GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGB);
     glutInitWindowSize (800, 640);
     glutInitWindowPosition (100, 100);
     glutCreateWindow ("GoPokemon");

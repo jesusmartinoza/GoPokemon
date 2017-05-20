@@ -70,18 +70,11 @@ void Pokemon::update()
 }
 
 /**
- * Reorder obj to draw correctly
+ * Reorder obj to draw correctly.
+ * Squirtle's shield between body and tail.
  **/
 void Pokemon::reorderObjects()
 {
-    //ObjObject unionPart = objects.at(2);
-    
-    //objects.erase(objects.begin() + 1);s
-    //objects.insert(objects.begin() + 4, unionPart);
-    
-    ObjObject shield = objects.at(0);
-    
-    objects.erase(objects.begin());
-    objects.insert(objects.begin()+1, shield);
+    reorderObject(0, 1);
     
 }

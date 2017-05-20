@@ -47,6 +47,7 @@ public:
     float getSizeX();
     float getSizeY();
     float getSizeZ();
+    void reorderObject(int actualPos, int newPos);
 };
 
 #endif /* ObjModel_hpp */

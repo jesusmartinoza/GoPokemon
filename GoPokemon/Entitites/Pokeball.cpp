@@ -121,32 +121,12 @@ bool Pokeball::update()
 
 /**
  * Reorder obj to draw correctly
+ *
  **/
 void Pokeball::reorderObjects()
 {
-    //ObjObject unionPart = objects.at(2);
-    
-    //objects.erase(objects.begin() + 1);s
-    //objects.insert(objects.begin() + 4, unionPart);
-    
-    ObjObject whiteCircle = objects.at(5);
-    
-    objects.erase(objects.begin() + 5);
-    objects.insert(objects.begin() + 3, whiteCircle);
-    
-    ObjObject littleCircle = objects.at(1);
-    
-    objects.erase(objects.begin() + 1);
-    objects.insert(objects.begin() + 3, littleCircle);
-    
-    ObjObject whitePart = objects.at(0);
-    
-    objects.erase(objects.begin());
-    objects.insert(objects.begin() + 3, whitePart);
-    
-    ObjObject unionBlack = objects.at(5);
-    
-    objects.erase(objects.begin() + 5);
-    objects.insert(objects.begin() + 3, unionBlack);
-
+    reorderObject(5, 3); // white circle of the ball
+    reorderObject(1, 3); // little inner circle of the ball
+    reorderObject(0, 3); // Bottom of the sphere
+    reorderObject(5, 3); // Black part of the sphere
 }
