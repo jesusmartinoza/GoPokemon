@@ -12,6 +12,7 @@ using namespace std;
 
 /**
  * Copy constructor
+ * The swap method is to copy the @param vector
  **/
 ObjFace::ObjFace(vector<ObjVertex> vector)
 {
@@ -59,7 +60,7 @@ void ObjFace::calculateIllumination()
     float k_s = 1.0; // Specular reflection
     float I_a = 0.4; // Intensity of ambient light
     float I_l = 0.7;
-    ObjVertex light = ObjVertex(0, -1, -1);//(-1, -1, -0.3);
+    ObjVertex light = ObjVertex(0, -1, -1);
     ObjVertex R = ObjVertex(0, 1, -1);
     float specular = R.dot(PRP);
     

@@ -172,9 +172,9 @@ void ObjModel::calculateNormals()
     for (auto &object : objects)
         for(auto &face : object.getFaces()) {
             face.calculateNormal();
-            face.calculateIllumination();
         }
 }
+
 
 /**
  * Multiply every point by the matrix to obtain the new point
@@ -293,9 +293,6 @@ void ObjModel::rotateZ(float degrees)
     
     // Do rotation
     multiplyMatrix(matrix);
-    
-    // Translate to anchor point
-    //translate(anchorPoint);
 }
 
 /**
@@ -317,7 +314,7 @@ void ObjModel::scale(float sx, float sy, float sz)
 }
 
 /**
- * Iterate over vertices and draw them using GL_LINE_STRIP
+ * Iterate over vertices and draw them using GL_POLYGON and calculated illumination.
  **/
 void ObjModel::draw()
 {
