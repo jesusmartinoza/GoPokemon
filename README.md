@@ -9,7 +9,10 @@ Game built with OpenGL and GLUT, the goal is to dodge the pokeballs. It's the op
 ### Wireframe
 ![](https://raw.githubusercontent.com/jesusmartinoza/GoPokemon/master/Readme%20assets/wireframe_squirtle.gif)
 
-### Illumination
+### Light
+![](https://raw.githubusercontent.com/jesusmartinoza/GoPokemon/master/Readme%20assets/phong.gif)
+
+### Light + Color
 ![](https://raw.githubusercontent.com/jesusmartinoza/GoPokemon/master/Readme%20assets/illumination.gif)
 
 ## Credits
